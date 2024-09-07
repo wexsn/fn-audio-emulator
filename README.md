@@ -1,4 +1,4 @@
-FN Audio Emulator
+FN Audio Emulator [RU-README Click](https://github.com/your-repo-name/FN-Audio-Emulator/blob/main/README.md)
 ================
 
 About the Program
