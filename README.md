@@ -63,7 +63,7 @@ By default, the program uses the following delays for keys (it is not recommende
 * Volume Down: 100 ms
 
 
-* Virtual Key Codes
+Virtual Key Codes
 -----------------
 
 You can use the following virtual key codes to change keys:
