@@ -17,7 +17,7 @@ Emulated Keys
 
 Screenshot
 ------------
-!(https://raw.githubusercontent.com/iwantgirlfriend/fn-audio-emulator/main/screen.PNG?raw=true)
+![FN Audio Emulator Screenshot](https://raw.githubusercontent.com/iwantgirlfriend/fn-audio-emulator/main/screen.PNG?raw=true)
 
 Advantages
 ------------
