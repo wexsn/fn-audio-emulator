@@ -1,4 +1,4 @@
-FN Audio Emulator [RU-README Click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/RU-README.md)
+FN Audio Emulator | [RU-README Click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/RU-README.md)
 ================
 
 About the Program
