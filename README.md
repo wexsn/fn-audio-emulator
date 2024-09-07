@@ -15,6 +15,10 @@ Emulated Keys
 * **Volume Up**: allows you to increase the playback volume
 * **Volume Down**: allows you to decrease the playback volume
 
+Screenshot
+------------
+!(https://raw.githubusercontent.com/iwantgirlfriend/fn-audio-emulator/main/screen.PNG?raw=true)
+
 Advantages
 ------------
 
