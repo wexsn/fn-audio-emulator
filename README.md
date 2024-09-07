@@ -214,7 +214,7 @@ Copy the code from the downloaded file `Program.cs` and paste it into your new p
 
 **Step 5: Add dependencies**
 
-Install the dependencies `InputSimulator` and `Spectre.Console` using the NuGet package manager.
+Install the dependencies `InputSimulator` and `Spectre.Console` using the NuGet package manager & update "fn-audio-emulator.csproj" file.
 
 **Step 6: Build the EXE file**
 
