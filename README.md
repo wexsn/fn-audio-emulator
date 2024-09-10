@@ -76,126 +76,355 @@ By default, the program uses the following delays for keys (it is not recommende
 Virtual Key Codes
 -----------------
 
-You can use the following virtual key codes to change keys:
+Alphanumeric Keys:
 
-* **Mouse Buttons**
-	+ `VK_LBUTTON` (Left mouse button)
-	+ `VK_RBUTTON` (Right mouse button)
-	+ `VK_MBUTTON` (Middle mouse button)
-	+ `VK_XBUTTON1` (X1 mouse button)
-	+ `VK_XBUTTON2` (X2 mouse button)
-* **Keyboard Keys**
-	+ `VK_BACK` (Backspace key)
-	+ `VK_TAB` (Tab key)
-	+ `VK_CLEAR` (Clear key)
-	+ `VK_RETURN` (Enter key)
-	+ `VK_SHIFT` (Shift key)
-	+ `VK_CONTROL` (Ctrl key)
-	+ `VK_MENU` (Alt key)
-	+ `VK_PAUSE` (Pause key)
-	+ `VK_CAPITAL` (Caps Lock key)
-	+ `VK_KANA` (Kana key)
-	+ `VK_HANGEUL` (Hangeul key)
-	+ `VK_HANGUL` (Hangul key)
-	+ `VK_JUNJA` (Junja key)
-	+ `VK_FINAL` (Final key)
-	+ `VK_HANJA` (Hanja key)
-	+ `VK_KANJI` (Kanji key)
-	+ `VK_ESCAPE` (Esc key)
-	+ `VK_CONVERT` (Convert key)
-	+ `VK_NONCONVERT` (Nonconvert key)
-	+ `VK_ACCEPT` (Accept key)
-	+ `VK_MODECHANGE` (Mode Change key)
-	+ `VK_SPACE` (Space key)
-	+ `VK_PRIOR` (Page Up key)
-	+ `VK_NEXT` (Page Down key)
-	+ `VK_END` (End key)
-	+ `VK_HOME` (Home key)
-	+ `VK_LEFT` (Left arrow key)
-	+ `VK_UP` (Up arrow key)
-	+ `VK_RIGHT` (Right arrow key)
-	+ `VK_DOWN` (Down arrow key)
-	+ `VK_SELECT` (Select key)
-	+ `VK_PRINT` (Print key)
-	+ `VK_EXECUTE` (Execute key)
-	+ `VK_SNAPSHOT` (Print Screen key)
-	+ `VK_INSERT` (Insert key)
-	+ `VK_DELETE` (Delete key)
-	+ `VK_HELP` (Help key)
-* **Numeric Keypad**
-	+ `VK_NUMPAD0` (0 key on numeric keypad)
-	+ `VK_NUMPAD1` (1 key on numeric keypad)
-	+ `VK_NUMPAD2` (2 key on numeric keypad)
-	+ `VK_NUMPAD3` (3 key on numeric keypad)
-	+ `VK_NUMPAD4` (4 key on numeric keypad)
-	+ `VK_NUMPAD5` (5 key on numeric keypad)
-	+ `VK_NUMPAD6` (6 key on numeric keypad)
-	+ `VK_NUMPAD7` (7 key on numeric keypad)
-	+ `VK_NUMPAD8` (8 key on numeric keypad)
-	+ `VK_NUMPAD9` (9 key on numeric keypad)
-	+ `VK_MULTIPLY` (Multiply key on numeric keypad)
-	+ `VK_ADD` (Add key on numeric keypad)
-	+ `VK_SEPARATOR` (Separator key on numeric keypad)
-	+ `VK_SUBTRACT` (Subtract key on numeric keypad)
-	+ `VK_DECIMAL` (Decimal key on numeric keypad)
-	+ `VK_DIVIDE` (Divide key on numeric keypad)
-* **Function Keys**
-	+ `VK_F1` (F1 key)
-	+ `VK_F2` (F2 key)
-	+ `VK_F3` (F3 key)
-	+ `VK_F4` (F4 key)
-	+ `VK_F5` (F5 key)
-	+ `VK_F6` (F6 key)
-	+ `VK_F7` (F7 key)
-	+ `VK_F8` (F8 key)
-	+ `VK_F9` (F9 key)
-	+ `VK_F10` (F10 key)
-	+ `VK_F11` (F11 key)
-	+ `VK_F12` (F12 key)
-	+ `VK_F13` (F13 key)
-	+ `VK_F14` (F14 key)
-	+ `VK_F15` (F15 key)
-	+ `VK_F16` (F16 key)
-	+ `VK_F17` (F17 key)
-	+ `VK_F18` (F18 key)
-	+ `VK_F19` (F19 key)
-	+ `VK_F20` (F20 key)
-	+ `VK_F21` (F21 key)
-	+ `VK_F22` (F22 key)
-	+ `VK_F23` (F23 key)
-	+ `VK_F24` (F24 key)
-* **Letter Keys**
-	+ `VK_A` (A key)
-	+ `VK_B` (B key)
-	+ `VK_C` (C key)
-	+ `VK_D` (D key)
-	+ `VK_E` (E key)
-	+ `VK_F` (F key)
-	+ `VK_G` (G key)
-	+ `VK_H` (H key)
-	+ `VK_I` (I key)
-	+ `VK_J` (J key)
-	+ `VK_K` (K key)
-	+ `VK_L` (L key)
-	+ `VK_M` (M key)
-	+ `VK_N` (N key)
-	+ `VK_O` (O key)
-	+ `VK_P` (P key)
-	+ `VK_Q` (Q key)
-	+ `VK_R` (R key)
-	+ `VK_S` (S key)
-	+ `VK_T` (T key)
-	+ `VK_U` (U key)
-	+ `VK_V` (V key)
-	+ `VK_W` (W key)
-	+ `VK_X` (X key)
-	+ `VK_Y` (Y key)
-	+ `VK_Z` (Z key)
-* **Special Keys**
-	+ `VK_LWIN` (Left Windows key)
-	+ `VK_RWIN` (Right Windows key)
-	+ `VK_APPS` (Applications key)
-	+ `VK_SLEEP` (Sleep key)
+    VK_A - A
+
+    VK_B - B
+
+    VK_C - C
+
+    VK_D - D
+
+    VK_E - E
+
+    VK_F - F
+
+    VK_G - G
+
+    VK_H - H
+
+    VK_I - I
+
+    VK_J - J
+
+    VK_K - K
+
+    VK_L - L
+
+    VK_M - M
+
+    VK_N - N
+
+    VK_O - O
+
+    VK_P - P
+
+    VK_Q - Q
+
+    VK_R - R
+
+    VK_S - S
+
+    VK_T - T
+
+    VK_U - U
+
+    VK_V - V
+
+    VK_W - W
+
+    VK_X - X
+
+    VK_Y - Y
+
+    VK_Z - Z
+
+    VK_0 - 0
+
+    VK_1 - 1
+
+    VK_2 - 2
+
+    VK_3 - 3
+
+    VK_4 - 4
+
+    VK_5 - 5
+
+    VK_6 - 6
+
+    VK_7 - 7
+
+    VK_8 - 8
+
+    VK_9 - 9
+
+Special Keys:
+
+    VK_LBUTTON - Left mouse button
+
+    VK_RBUTTON - Right mouse button
+
+    VK_CANCEL - Control-break processing
+
+    VK_MBUTTON - Middle mouse button (wheel)
+
+    VK_XBUTTON1 - X1 mouse button
+
+    VK_XBUTTON2 - X2 mouse button
+
+    VK_BACK - BACKSPACE
+
+    VK_TAB - TAB
+
+    VK_CLEAR - CLEAR
+
+    VK_RETURN - ENTER
+
+    VK_SHIFT - SHIFT
+
+    VK_CONTROL - CTRL
+
+    VK_MENU - ALT
+
+    VK_PAUSE - PAUSE
+
+    VK_CAPITAL - CAPS LOCK
+
+    VK_KANA - IME Kana mode
+
+    VK_HANGUL - IME Hangul mode
+
+    VK_JUNJA - IME Junja mode
+
+    VK_FINAL - IME final mode
+
+    VK_HANJA - IME Hanja mode
+
+    VK_KANJI - IME Kanji mode
+
+    VK_ESCAPE - ESC
+
+    VK_CONVERT - IME convert
+
+    VK_NONCONVERT - IME nonconvert
+
+    VK_ACCEPT - IME accept
+
+    VK_MODECHANGE - IME mode change request
+
+    VK_SPACE - SPACEBAR
+
+    VK_PRIOR - PAGE UP
+
+    VK_NEXT - PAGE DOWN
+
+    VK_END - END
+
+    VK_HOME - HOME
+
+    VK_LEFT - LEFT ARROW
+
+    VK_UP - UP ARROW
+
+    VK_RIGHT - RIGHT ARROW
+
+    VK_DOWN - DOWN ARROW
+
+    VK_SELECT - SELECT
+
+    VK_PRINT - PRINT
+
+    VK_EXECUTE - EXECUTE
+
+    VK_SNAPSHOT - PRINT SCREEN
+
+    VK_INSERT - INS
+
+    VK_DELETE - DEL
+
+    VK_HELP - HELP
+
+Numeric Keypad:
+
+    VK_NUMPAD0 - Numeric keypad 0
+
+    VK_NUMPAD1 - Numeric keypad 1
+
+    VK_NUMPAD2 - Numeric keypad 2
+
+    VK_NUMPAD3 - Numeric keypad 3
+
+    VK_NUMPAD4 - Numeric keypad 4
+
+    VK_NUMPAD5 - Numeric keypad 5
+
+    VK_NUMPAD6 - Numeric keypad 6
+
+    VK_NUMPAD7 - Numeric keypad 7
+
+    VK_NUMPAD8 - Numeric keypad 8
+
+    VK_NUMPAD9 - Numeric keypad 9
+
+    VK_MULTIPLY - Multiply
+
+    VK_ADD - Add
+
+    VK_SEPARATOR - Separator
+
+    VK_SUBTRACT - Subtract
+
+    VK_DECIMAL - Decimal
+
+    VK_DIVIDE - Divide
+
+Function Keys:
+
+    VK_F1 - F1
+
+    VK_F2 - F2
+
+    VK_F3 - F3
+
+    VK_F4 - F4
+
+    VK_F5 - F5
+
+    VK_F6 - F6
+
+    VK_F7 - F7
+
+    VK_F8 - F8
+
+    VK_F9 - F9
+
+    VK_F10 - F10
+
+    VK_F11 - F11
+
+    VK_F12 - F12
+
+    VK_F13 - F13
+
+    VK_F14 - F14
+
+    VK_F15 - F15
+
+    VK_F16 - F16
+
+    VK_F17 - F17
+
+    VK_F18 - F18
+
+    VK_F19 - F19
+
+    VK_F20 - F20
+
+    VK_F21 - F21
+
+    VK_F22 - F22
+
+    VK_F23 - F23
+
+    VK_F24 - F24
+
+Control Keys:
+
+    VK_NUMLOCK - NUM LOCK
+
+    VK_SCROLL - SCROLL LOCK
+
+    VK_LSHIFT - Left SHIFT
+
+    VK_RSHIFT - Right SHIFT
+
+    VK_LCONTROL - Left CONTROL
+
+    VK_RCONTROL - Right CONTROL
+
+    VK_LMENU - Left ALT
+
+    VK_RMENU - Right ALT
+
+    VK_BROWSER_BACK - Browser Back
+
+    VK_BROWSER_FORWARD - Browser Forward
+
+    VK_BROWSER_REFRESH - Browser Refresh
+
+    VK_BROWSER_STOP - Browser Stop
+
+    VK_BROWSER_SEARCH - Browser Search
+
+    VK_BROWSER_FAVORITES - Browser Favorites
+
+    VK_BROWSER_HOME - Browser Start and Home
+
+    VK_VOLUME_MUTE - Volume Mute
+
+    VK_VOLUME_DOWN - Volume Down
+
+    VK_VOLUME_UP - Volume Up
+
+    VK_MEDIA_NEXT_TRACK - Next Track
+
+    VK_MEDIA_PREV_TRACK - Previous Track
+
+    VK_MEDIA_STOP - Stop Media
+
+    VK_MEDIA_PLAY_PAUSE - Play/Pause Media
+
+    VK_LAUNCH_MAIL - Start Mail
+
+    VK_LAUNCH_MEDIA_SELECT - Select Media
+
+    VK_LAUNCH_APP1 - Start Application 1
+
+    VK_LAUNCH_APP2 - Start Application 2
+
+Symbol Keys:
+
+    VK_OEM_1 - ;:
+
+    VK_OEM_PLUS - =+
+
+    VK_OEM_COMMA - ,<
+
+    VK_OEM_MINUS - -_
+
+    VK_OEM_PERIOD - .>
+
+    VK_OEM_2 - /?
+
+    VK_OEM_3 - `~
+
+    VK_OEM_4 - [{
+
+    VK_OEM_5 - |
+
+    VK_OEM_6 - ]}
+
+    VK_OEM_7 - '"
+
+    VK_OEM_8 - Miscellaneous characters
+
+    VK_OEM_102 - Either the angle bracket key or the backslash key on the RT 102-key keyboard
+
+Japanese Layout Keys:
+
+    VK_PROCESSKEY - IME process key
+
+    VK_ATTN - Attn key
+
+    VK_CRSEL - CrSel key
+
+    VK_EXSEL - ExSel key
+
+    VK_EREOF - Erase EOF
+
+    VK_PLAY - Play key
+
+    VK_ZOOM - Zoom key
+
+    VK_NONAME - Reserved
+
+    VK_PA1 - PA1 key
+
+    VK_OEM_CLEAR - Clear key
+
+This list covers most of the common VirtualKeyCode constants used in Windows applications. For a complete list, you can refer to the official Microsoft documentation or use API functions like GetKeyNameText to get the textual representation of a key by its code.
 
 Building the Project (Optional)
 ------------------------------
