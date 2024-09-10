@@ -1,6 +1,10 @@
 FN Audio Emulator | [RU-README Click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/RU-README.md)
 ================
 
+Quick access "click"
+-----------------
+[Update list](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md), [Download from release, compiled with action from open source here on github](https://github.com/iwantgirlfriend/fn-audio-emulator/releases), [Download from Actions](https://github.com/iwantgirlfriend/fn-audio-emulator/actions/)
+
 About the Program
 -----------------
 
