@@ -1,0 +1,105 @@
+name: Build and Release for Windows
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [x64, x86]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        shell: pwsh
+        run: dotnet restore
+
+      - name: Build project for Windows ${{ matrix.architecture }}
+        shell: pwsh
+        run: dotnet publish -c Release -r win-${{ matrix.architecture }} --self-contained -o ./build/${{ matrix.architecture }}
+
+      - name: Archive build for Windows ${{ matrix.architecture }}
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts
+          Get-ChildItem -Path ./build/${{ matrix.architecture }} | Where-Object {$_.Name -ne "fn-audio-emulator.pdb"} | Compress-Archive -DestinationPath ./artifacts/fn-audio-emulator-${{ matrix.architecture }}.zip
+
+      - name: List artifacts folder
+        shell: pwsh
+        run: Get-ChildItem -Path ./artifacts
+
+      - name: Upload artifact for Windows ${{ matrix.architecture }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: fn-audio-emulator-${{ matrix.architecture }}
+          path: ./artifacts/fn-audio-emulator-${{ matrix.architecture }}.zip
+
+  create_release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository for tagging
+        uses: actions/checkout@v3
+
+      - name: Get current time
+        id: time
+        run: echo "datetime=$(date -u '+%Y%m%d-%H%M')" >> $GITHUB_ENV
+
+      - name: Create tag
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git tag -a "v${{ env.datetime }}" -m "Release on ${{ env.datetime }}"
+          git push origin "v${{ env.datetime }}"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.datetime }}"
+          name: "Release ${{ env.datetime }}"
+          body: "Automated release of fn-audio-emulator for Windows (x64 and x86)from actions, [update list > click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md)"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download 64-bit artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: fn-audio-emulator-x64
+          path: ./artifacts
+
+      - name: Download 32-bit artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: fn-audio-emulator-x86
+          path: ./artifacts
+
+      - name: Upload 64-bit artifact to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.datetime }}"
+          files: ./artifacts/fn-audio-emulator-x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload 32-bit artifact to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.datetime }}"
+          files: ./artifacts/fn-audio-emulator-x86.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
