@@ -70,7 +70,7 @@ jobs:
         with:
           tag_name: "v${{ env.datetime }}"
           name: "Release ${{ env.datetime }}"
-          body: "Automated release of fn-audio-emulator for Windows (x64 and x86)from actions, [update list > click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md)"
+          body: "Automated release of fn-audio-emulator for Windows (x64 and x86) from actions, [update list > click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md)"
           draft: false
           prerelease: false
         env:
