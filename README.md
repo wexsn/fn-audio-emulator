@@ -15,11 +15,11 @@ FN Audio Emulator is a console program that allows you to emulate the Play/Pause
 Emulated Keys
 -------------
 
-* **Play/Pause**: allows you to start or stop the playback of an audio or video file
-* **Next Track**: allows you to switch to the next track in the playlist
-* **Previous Track**: allows you to return to the previous track in the playlist
-* **Volume Up**: allows you to increase the playback volume
-* **Volume Down**: allows you to decrease the playback volume
+* **Play/Pause**: allows you to start or stop the playback of an audio or video file "F2"
+* **Next Track**: allows you to switch to the next track "F4"
+* **Previous Track**: allows you to return to the previous track "F8"
+* **Volume Up**: allows you to increase the playback volume "9"
+* **Volume Down**: allows you to decrease the playback volume "0"
 
 Screenshot
 ------------
@@ -33,7 +33,7 @@ FN Audio Emulator is ideal for users who do not have these keys on their keyboar
 Open Source Code
 ----------------
 
-The program has an open source code, any user can build the program themselves or study the code and make changes for themselves, add new features.
+The program has an open source code, any user can build the program themselves or study the code and make changes for themselves, add new features. Just don't change the links to the official repository and the name of the program. With the new update, the program is built via action automatically with any change in the code.
 
 Settings
 ------------
@@ -204,7 +204,7 @@ To build the project, follow these steps:
 
 **Step 1: Install the necessary tools**
 
-Install Visual Studio or Visual Studio Code on your computer. Install .NET Core SDK on your computer.
+Install Visual Studio on your computer. Install .NET Core SDK on your computer.
 
 **Step 2: Clone the repository**
 
@@ -212,7 +212,7 @@ Download the source code from the project page.
 
 **Step 3: Create a new C# project**
 
-Create a new project in Visual Studio or Visual Studio Code. Choose "Console App (.NET Core)" as the project type.
+Create a new project in Visual Studio. Choose "Console App (.NET Core)" as the project type.
 
 **Step 4: Copy the code**
 
@@ -228,7 +228,7 @@ Press `Ctrl + B` to build the project. The EXE file will be created in the `bin/
 
 **Step 7: You're done!**
 
-You can now use the FN-Audio-Emulator with open source code and enjoy easy music switching.
+You can now use the FN-Audio-Emulator with open source code and enjoy easy music switching. With the new update, the program is built via action automatically with any change in the code.
 
 Community and Support
 ------------------------
