@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using WindowsInput;
-using WindowsInput.Native;
+using InputSimulatorEx;
+using InputSimulatorEx.Native;
 using Microsoft.Win32;
 using Spectre.Console;
+using VirtualKeysDlc;
 
-class Program
+public partial class Program
 {
     private static InputSimulator inputSimulator = new InputSimulator();
     private static bool isRunning = true;
@@ -18,16 +19,19 @@ class Program
     private static DateTime lastPreviousTrackKeyPressTime = DateTime.MinValue;
     private static DateTime lastVolumeUpKeyPressTime = DateTime.MinValue;
     private static DateTime lastVolumeDownKeyPressTime = DateTime.MinValue;
-    private static TimeSpan keyPressDelay = TimeSpan.FromMilliseconds(300);
-    private static TimeSpan trackKeyPressDelay = TimeSpan.FromMilliseconds(500);
-    private static TimeSpan volumeKeyPressDelay = TimeSpan.FromMilliseconds(100);
+    private static DateTime lastMuteUnmuteKeyPressTime = DateTime.MinValue;
+    private static TimeSpan keyPressDelay = TimeSpan.FromMilliseconds(250); //pause/play key delay change if u need
+    private static TimeSpan trackKeyPressDelay = TimeSpan.FromMilliseconds(300); //next track/previous
+    private static TimeSpan volumeKeyPressDelay = TimeSpan.FromMilliseconds(100); //volumedown/up
+    private static TimeSpan muteUnmuteKeyPressDelay = TimeSpan.FromMilliseconds(250); //mute/unmute
     private static bool isPlaying = true;
 
     private static VirtualKeyCode pausePlayKey = VirtualKeyCode.F2;
     private static VirtualKeyCode nextTrackKey = VirtualKeyCode.F4;
     private static VirtualKeyCode previousTrackKey = VirtualKeyCode.F8;
-    private static VirtualKeyCode volumeUpKey = VirtualKeyCode.VK_9;
-    private static VirtualKeyCode volumeDownKey = VirtualKeyCode.VK_0;
+    private static VirtualKeyCode volumeUpKey = VirtualKeyCode.OEM_PLUS;
+    private static VirtualKeyCode volumeDownKey = VirtualKeyCode.OEM_MINUS;
+    private static VirtualKeyCode muteUnmuteKey = VirtualKeyCode.F3;
     internal static VirtualKeyCode toggleConsoleKey = VirtualKeyCode.F12;
 
     private static string currentLanguage = "en";
@@ -36,7 +40,7 @@ class Program
         {
             "en", new Dictionary<string, string>
             {
-                { "welcome", "[bold red]FN-Audio-Emulator 0.1 | Open Source github.com/iwantgirlfriend/fn-audio-emulator[/]" },
+                { "welcome", "[bold red]FN-Audio-Emulator | github.com/iwantgirlfriend/fn-audio-emulator[/]" },
                 { "help_command", "help - Show help" },
                 { "enter_command", "[red]Enter command > [/]" },
                 { "unknown_command", "Unknown command" },
@@ -51,18 +55,20 @@ class Program
                 { "previoustrack_key_set", "Previous Track key set to {0}" },
                 { "volumeup_key_set", "Volume Up key set to {0}" },
                 { "volumedown_key_set", "Volume Down key set to {0}" },
+                { "muteunmute_key_set", "Mute/Unmute key set to {0}" },
                 { "toggleconsole_key_set", "Toggle Console key set to {0}" },
-                { "showkeys", "Pause/Play: {0}\nNext Track (only when song playing): {1}\nPrevious Track (only when song playing): {2}\nHide/Show Console: {5}\nVolume Up: {3}\nVolume Down: {4}" },
-                { "help_text", "Available commands:\n  1. autostart - Enable autostart\n  2. offauto - Disable autostart\n  3. clear - Clear the terminal\n  4. setkey <type> <key> - Set custom key\n     - <type> can be: pauseplay, nexttrack, previoustrack, volumeup, volumedown, toggleconsole\n     - <key> is the name of the key from VirtualKeyCode enumeration\n     - Example: setkey pauseplay VK_1\n  5. setdelay <type> <delay> - Set key delay in milliseconds (for experienced users)\n     - <type> can be: pauseplay, nexttrack, previoustrack, volumeup, volumedown, toggleconsole\n     - <delay> is the delay in milliseconds\n     - Example: setdelay pauseplay 300\n  6. showkeys - Show current keys\n  7. russian - Switch to Russian language\n  8. english - Switch to English language\n  9. exit - Exit the application" },
+                { "showkeys", "Pause/Play: {0}\nNext Track (only when song playing): {1}\nPrevious Track (only when song playing): {2}\nMute/Unmute: {6}\nHide/Show Console: {5}\nVolume Up: {3}\nVolume Down: {4}" },
+                { "help_text", "Available commands:\n  1. autostart - Enable autostart\n  2. offauto - Disable autostart\n  3. clear - Clear the terminal\n  4. setkey <type> <key> - Set custom key\n     - <type> can be: pauseplay, nexttrack, previoustrack, volumeup, volumedown, muteunmute, toggleconsole\n     - <key> is the name of the key from VirtualKeyCode enumeration\n     - Example: setkey pauseplay VK_1\n  5. setdelay <type> <delay> - Set key delay in milliseconds (for experienced users)\n     - <type> can be: pauseplay, nexttrack, previoustrack, volumeup, volumedown, muteunmute, toggleconsole\n     - <delay> is the delay in milliseconds\n     - Example: setdelay pauseplay 300\n  6. showkeys - Show current keys\n  7. russian - Switch to Russian language\n  8. english - Switch to English language\n  9. exit - Exit the application\n  Version the console: 20240928" },
                 { "setdelay_usage", "Invalid command format. Usage: setdelay <type> <delay>" },
                 { "delay_set", "{0} delay set to {1} ms" },
-                { "offauto_error", "Autostart is already disabled" }
+                { "offauto_error", "Autostart is already disabled" },
+                { "key_already_in_use", "Key {0} is already in use for {1}" }
             }
         },
         {
             "ru", new Dictionary<string, string>
             {
-                { "welcome", "[bold red]FN-Audio-Emulator 0.1 | Открытый исходный код github.com/iwantgirlfriend/fn-audio-emulator[/]" },
+                { "welcome", "[bold red]FN-Audio-Emulator | github.com/iwantgirlfriend/fn-audio-emulator[/]" },
                 { "help_command", "help - Показать доступные команды" },
                 { "enter_command", "[red]Введите команду > [/]" },
                 { "unknown_command", "Неизвестная команда" },
@@ -77,17 +83,20 @@ class Program
                 { "previoustrack_key_set", "Клавиша Предыдущий трек установлена на {0}" },
                 { "volumeup_key_set", "Клавиша Увеличение громкости установлена на {0}" },
                 { "volumedown_key_set", "Клавиша Уменьшение громкости установлена на {0}" },
+                { "muteunmute_key_set", "Клавиша Выключение звука установлена на {0}" },
                 { "toggleconsole_key_set", "Клавиша Переключения консоли установлена на {0}" },
-                { "showkeys", "Пауза/Воспроизведение: {0}\nСледующий трек (только когда играет песня): {1}\nПредыдущий трек (только когда играет песня): {2}\nСкрыть/Открыть консоль: {5}\nУвеличение громкости: {3}\nУменьшение громкости: {4}" },
-                { "help_text", "Доступные команды:\n  1. autostart - Включить автозапуск\n  2. offauto - Выключить автозапуск\n  3. clear - Очистить терминал\n  4. setkey <тип> <клавиша> - Установить пользовательскую клавишу\n     - <тип> может быть: pauseplay, nexttrack, previoustrack, volumeup, volumedown, toggleconsole\n     - <клавиша> - название клавиши из перечисления VirtualKeyCode\n     - Пример: setkey pauseplay VK_1\n  5. setdelay <тип> <задержка> - Установить задержку клавиши в миллисекундах (для опытных пользователей)\n     - <тип> может быть: pauseplay, nexttrack, previoustrack, volumeup, volumedown, toggleconsole\n     - <задержка> - задержка в миллисекундах\n     - Пример: setdelay pauseplay 300\n  6. showkeys - Показать текущие клавиши\n  7. russian - Переключить на Русский язык\n  8. english - Переключить на Английский язык\n  9. exit - Выйти из приложения" },
+                { "showkeys", "Пауза/Воспроизведение: {0}\nСледующий трек (только когда играет песня): {1}\nПредыдущий трек (только когда играет песня): {2}\nВыключение/Включение звука: {6}\nСкрыть/Открыть консоль: {5}\nУвеличение громкости: {3}\nУменьшение громкости: {4}" },
+                { "help_text", "Доступные команды:\n  1. autostart - Включить автозапуск\n  2. offauto - Выключить автозапуск\n  3. clear - Очистить терминал\n  4. setkey <тип> <клавиша> - Установить пользовательскую клавишу\n     - <тип> может быть: pauseplay, nexttrack, previoustrack, volumeup, volumedown, muteunmute, toggleconsole\n     - <клавиша> - название клавиши из перечисления VirtualKeyCode\n     - Пример: setkey pauseplay VK_1\n  5. setdelay <тип> <задержка> - Установить задержку клавиши в миллисекундах (для опытных пользователей)\n     - <тип> может быть: pauseplay, nexttrack, previoustrack, volumeup, volumedown, muteunmute, toggleconsole\n     - <задержка> - задержка в миллисекундах\n     - Пример: setdelay pauseplay 300\n  6. showkeys - Показать текущие клавиши\n  7. russian - Переключить на Русский язык\n  8. english - Переключить на Английский язык\n  9. exit - Выйти из приложения\n  Версия приложения: 20240928" },
                 { "setdelay_usage", "Неверный формат команды. Использование: setdelay <тип> <задержка>" },
                 { "delay_set", "Задержка {0} установлена на {1} мс" },
-                { "offauto_error", "Автозагрузка уже отключена" }
+                { "offauto_error", "Автозагрузка уже отключена" },
+                { "key_already_in_use", "Клавиша {0} уже используется для {1}" }
             }
         }
     };
 
-    private static Mutex mutex = null;
+    private static Mutex? mutex;
+    private static bool createdNew;
 
     [DllImport("user32.dll")]
     private static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -95,7 +104,7 @@ class Program
     static void Main(string[] args)
     {
         const string appName = "github.com/iwantgirlfriend/fn-audio-emulator";
-        mutex = new Mutex(true, appName, out bool createdNew);
+        mutex = new Mutex(true, appName, out createdNew);
 
         if (!createdNew)
         {
@@ -117,7 +126,7 @@ class Program
         AnsiConsole.MarkupLine(GetTranslation("help_command"));
 
         Task.Run(() => HandleHotkeys());
-        Task.Run(() => ConsoleHider.ToggleConsoleVisibility()); //shadowstart update
+        Task.Run(() => ConsoleHider.ToggleConsoleVisibility());
 
         while (isRunning)
         {
@@ -168,6 +177,12 @@ class Program
                 lastVolumeDownKeyPressTime = DateTime.Now;
             }
 
+            if (NativeMethods.IsKeyPressed(muteUnmuteKey) && DateTime.Now - lastMuteUnmuteKeyPressTime > muteUnmuteKeyPressDelay)
+            {
+                SendMediaKey(MediaKey.VolumeMute);
+                lastMuteUnmuteKeyPressTime = DateTime.Now;
+            }
+
             System.Threading.Thread.Sleep(100);
         }
     }
@@ -186,39 +201,56 @@ class Program
             switch (parts[0].ToLower())
             {
                 case "setkey":
-                    if (parts.Length == 3 && Enum.TryParse(parts[2], out VirtualKeyCode newKey))
+                    if (parts.Length == 3)
                     {
-                        switch (parts[1].ToLower())
+                        if (Enum.TryParse(parts[2], out VirtualKeyCode newKey) || TryParseVirtualKeyCodeWithAliases(parts[2], out newKey))
                         {
-                            case "pauseplay":
-                                pausePlayKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("pauseplay_key_set"), newKey));
+                            if (IsKeyInUse(newKey))
+                            {
+                                AnsiConsole.MarkupLine(string.Format(GetTranslation("key_already_in_use"), KeyNames.KeyNamesDict[newKey], GetKeyType(newKey)));
                                 break;
-                            case "nexttrack":
-                                nextTrackKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("nexttrack_key_set"), newKey));
-                                break;
-                            case "previoustrack":
-                                previousTrackKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("previoustrack_key_set"), newKey));
-                                break;
-                            case "volumeup":
-                                volumeUpKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("volumeup_key_set"), newKey));
-                                break;
-                            case "volumedown":
-                                volumeDownKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("volumedown_key_set"), newKey));
-                                break;
-                            case "toggleconsole":
-                                toggleConsoleKey = newKey;
-                                AnsiConsole.MarkupLine(string.Format(GetTranslation("toggleconsole_key_set"), newKey));
-                                break;
-                            default:
-                                AnsiConsole.MarkupLine(GetTranslation("unknown_key_type"));
-                                break;
+                            }
+
+                            switch (parts[1].ToLower())
+                            {
+                                case "pauseplay":
+                                    pausePlayKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("pauseplay_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "nexttrack":
+                                    nextTrackKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("nexttrack_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "previoustrack":
+                                    previousTrackKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("previoustrack_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "volumeup":
+                                    volumeUpKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("volumeup_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "volumedown":
+                                    volumeDownKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("volumedown_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "muteunmute":
+                                    muteUnmuteKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("muteunmute_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                case "toggleconsole":
+                                    toggleConsoleKey = newKey;
+                                    AnsiConsole.MarkupLine(string.Format(GetTranslation("toggleconsole_key_set"), KeyNames.KeyNamesDict[newKey]));
+                                    break;
+                                default:
+                                    AnsiConsole.MarkupLine(GetTranslation("unknown_key_type"));
+                                    break;
+                            }
+                            SaveSettings();
                         }
-                        SaveSettings();
+                        else
+                        {
+                            AnsiConsole.MarkupLine(GetTranslation("setkey_usage"));
+                        }
                     }
                     else
                     {
@@ -249,6 +281,10 @@ class Program
                             case "volumedown":
                                 volumeKeyPressDelay = TimeSpan.FromMilliseconds(newDelay);
                                 AnsiConsole.MarkupLine(string.Format(GetTranslation("delay_set"), "Volume Down", newDelay));
+                                break;
+                            case "muteunmute":
+                                muteUnmuteKeyPressDelay = TimeSpan.FromMilliseconds(newDelay);
+                                AnsiConsole.MarkupLine(string.Format(GetTranslation("delay_set"), "Mute/Unmute", newDelay));
                                 break;
                             case "toggleconsole":
                                 AnsiConsole.MarkupLine(string.Format(GetTranslation("delay_set"), "Toggle Console", newDelay));
@@ -322,25 +358,53 @@ class Program
 
     private static void EnableAutostart()
     {
-        string appPath = Process.GetCurrentProcess().MainModule.FileName;
-        SetRegistryKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", appPath);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            string appPath = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+            if (appPath != string.Empty)
+            {
+                SetRegistryKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", appPath);
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Failed to get application path.[/]");
+            }
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[red]Autostart is only supported on Windows.[/]");
+        }
     }
 
     private static void DisableAutostart()
     {
-        string appName = Process.GetCurrentProcess().ProcessName;
-        RemoveRegistryKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", appName);
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            string appName = Process.GetCurrentProcess().ProcessName;
+            RemoveRegistryKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", appName);
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[red]Autostart is only supported on Windows.[/]");
+        }
     }
 
     private static void SetRegistryKey(string subKey, string value)
     {
         try
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey, true))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (key != null)
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey, true)!)
                 {
-                    key.SetValue(Process.GetCurrentProcess().ProcessName, value);
+                    if (key != null)
+                    {
+                        key.SetValue(Process.GetCurrentProcess().ProcessName, value);
+                    }
+                    else
+                    {
+                        AnsiConsole.MarkupLine("[red]Failed to open registry key.[/]");
+                    }
                 }
             }
         }
@@ -354,11 +418,18 @@ class Program
     {
         try
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey, true))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (key != null)
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey, true)!)
                 {
-                    key.DeleteValue(name, false);
+                    if (key != null)
+                    {
+                        key.DeleteValue(name, false);
+                    }
+                    else
+                    {
+                        AnsiConsole.MarkupLine("[red]Failed to open registry key.[/]");
+                    }
                 }
             }
         }
@@ -372,7 +443,13 @@ class Program
     {
         try
         {
-            System.IO.File.WriteAllText("settings.txt", $"{pausePlayKey}\n{nextTrackKey}\n{previousTrackKey}\n{volumeUpKey}\n{volumeDownKey}\n{toggleConsoleKey}\n{currentLanguage}\n{keyPressDelay.TotalMilliseconds}\n{trackKeyPressDelay.TotalMilliseconds}\n{volumeKeyPressDelay.TotalMilliseconds}");
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string settingsFilePath = Path.Combine(appDataPath, "fn-audio-emulator-settings.txt");
+
+            string directoryPath = Path.GetDirectoryName(settingsFilePath) ?? appDataPath;
+            Directory.CreateDirectory(directoryPath);
+
+            System.IO.File.WriteAllText(settingsFilePath, $"{pausePlayKey}\n{nextTrackKey}\n{previousTrackKey}\n{volumeUpKey}\n{volumeDownKey}\n{muteUnmuteKey}\n{toggleConsoleKey}\n{currentLanguage}\n{keyPressDelay.TotalMilliseconds}\n{trackKeyPressDelay.TotalMilliseconds}\n{volumeKeyPressDelay.TotalMilliseconds}\n{muteUnmuteKeyPressDelay.TotalMilliseconds}");
         }
         catch (Exception ex)
         {
@@ -384,22 +461,37 @@ class Program
     {
         try
         {
-            if (System.IO.File.Exists("settings.txt"))
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string settingsFilePath = Path.Combine(appDataPath, "fn-audio-emulator-settings.txt");
+
+            string directoryPath = Path.GetDirectoryName(settingsFilePath) ?? appDataPath;
+            Directory.CreateDirectory(directoryPath);
+
+            if (!File.Exists(settingsFilePath))
             {
-                var lines = System.IO.File.ReadAllLines("settings.txt");
-                if (lines.Length == 10 && Enum.TryParse(lines[0], out VirtualKeyCode ppKey) && Enum.TryParse(lines[1], out VirtualKeyCode ntKey) && Enum.TryParse(lines[2], out VirtualKeyCode ptKey) && Enum.TryParse(lines[3], out VirtualKeyCode vuKey) && Enum.TryParse(lines[4], out VirtualKeyCode vdKey) && Enum.TryParse(lines[5], out VirtualKeyCode tcKey) && double.TryParse(lines[7], out double ppDelay) && double.TryParse(lines[8], out double ntDelay) && double.TryParse(lines[9], out double vuDelay))
-                {
-                    pausePlayKey = ppKey;
-                    nextTrackKey = ntKey;
-                    previousTrackKey = ptKey;
-                    volumeUpKey = vuKey;
-                    volumeDownKey = vdKey;
-                    toggleConsoleKey = tcKey;
-                    currentLanguage = lines[6];
-                    keyPressDelay = TimeSpan.FromMilliseconds(ppDelay);
-                    trackKeyPressDelay = TimeSpan.FromMilliseconds(ntDelay);
-                    volumeKeyPressDelay = TimeSpan.FromMilliseconds(vuDelay);
-                }
+                AnsiConsole.MarkupLine("[yellow]Settings file not found. Creating default settings file...[/]");
+                SaveSettings();
+            }
+
+            var lines = File.ReadAllLines(settingsFilePath);
+            if (lines.Length == 12 && Enum.TryParse(lines[0], out VirtualKeyCode ppKey) && Enum.TryParse(lines[1], out VirtualKeyCode ntKey) && Enum.TryParse(lines[2], out VirtualKeyCode ptKey) && Enum.TryParse(lines[3], out VirtualKeyCode vuKey) && Enum.TryParse(lines[4], out VirtualKeyCode vdKey) && Enum.TryParse(lines[5], out VirtualKeyCode muKey) && Enum.TryParse(lines[6], out VirtualKeyCode tcKey) && double.TryParse(lines[8], out double ppDelay) && double.TryParse(lines[9], out double ntDelay) && double.TryParse(lines[10], out double vuDelay) && double.TryParse(lines[11], out double muDelay))
+            {
+                pausePlayKey = ppKey;
+                nextTrackKey = ntKey;
+                previousTrackKey = ptKey;
+                volumeUpKey = vuKey;
+                volumeDownKey = vdKey;
+                muteUnmuteKey = muKey;
+                toggleConsoleKey = tcKey;
+                currentLanguage = lines[7];
+                keyPressDelay = TimeSpan.FromMilliseconds(ppDelay);
+                trackKeyPressDelay = TimeSpan.FromMilliseconds(ntDelay);
+                volumeKeyPressDelay = TimeSpan.FromMilliseconds(vuDelay);
+                muteUnmuteKeyPressDelay = TimeSpan.FromMilliseconds(muDelay);
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Settings file is corrupted or invalid. Using default settings.[/]");
             }
         }
         catch (Exception ex)
@@ -412,7 +504,14 @@ class Program
     {
         var panel = new Panel(
             new Rows(
-                new Text(string.Format(GetTranslation("showkeys"), pausePlayKey, nextTrackKey, previousTrackKey, GetKeyName(volumeUpKey), GetKeyName(volumeDownKey), GetKeyName(toggleConsoleKey)))
+                new Text(string.Format(GetTranslation("showkeys"),
+                    KeyNames.KeyNamesDict[pausePlayKey],
+                    KeyNames.KeyNamesDict[nextTrackKey],
+                    KeyNames.KeyNamesDict[previousTrackKey],
+                    KeyNames.KeyNamesDict[volumeUpKey],
+                    KeyNames.KeyNamesDict[volumeDownKey],
+                    KeyNames.KeyNamesDict[toggleConsoleKey],
+                    KeyNames.KeyNamesDict[muteUnmuteKey]))
             )
         )
         .Header("Current Keys")
@@ -420,19 +519,6 @@ class Program
         .BorderColor(Color.Red);
 
         AnsiConsole.Write(panel);
-    }
-
-    private static string GetKeyName(VirtualKeyCode keyCode)
-    {
-        switch (keyCode)
-        {
-            case VirtualKeyCode.VK_9:
-                return "9";
-            case VirtualKeyCode.VK_0:
-                return "0";
-            default:
-                return keyCode.ToString();
-        }
     }
 
     private static void ShowHelp()
@@ -459,10 +545,43 @@ class Program
 
     private static bool IsAutostartEnabled()
     {
-        using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            return key?.GetValue(Process.GetCurrentProcess().ProcessName) != null;
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false)!)
+            {
+                return key?.GetValue(Process.GetCurrentProcess().ProcessName) != null;
+            }
         }
+        return false;
+    }
+
+    private static bool TryParseVirtualKeyCodeWithAliases(string keyName, out VirtualKeyCode keyCode)
+    {
+        keyCode = VirtualKeyCode.NONAME;
+
+        if (KeyAliases.Aliases.TryGetValue(keyName, out keyCode))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool IsKeyInUse(VirtualKeyCode key)
+    {
+        return key == pausePlayKey || key == nextTrackKey || key == previousTrackKey || key == volumeUpKey || key == volumeDownKey || key == muteUnmuteKey || key == toggleConsoleKey;
+    }
+
+    private static string GetKeyType(VirtualKeyCode key)
+    {
+        if (key == pausePlayKey) return "Pause/Play";
+        if (key == nextTrackKey) return "Next Track";
+        if (key == previousTrackKey) return "Previous Track";
+        if (key == volumeUpKey) return "Volume Up";
+        if (key == volumeDownKey) return "Volume Down";
+        if (key == muteUnmuteKey) return "Mute/Unmute";
+        if (key == toggleConsoleKey) return "Toggle Console";
+        return "Unknown";
     }
 }
 
@@ -472,7 +591,8 @@ public enum MediaKey
     NextTrack = VirtualKeyCode.MEDIA_NEXT_TRACK,
     PreviousTrack = VirtualKeyCode.MEDIA_PREV_TRACK,
     VolumeUp = VirtualKeyCode.VOLUME_UP,
-    VolumeDown = VirtualKeyCode.VOLUME_DOWN
+    VolumeDown = VirtualKeyCode.VOLUME_DOWN,
+    VolumeMute = VirtualKeyCode.VOLUME_MUTE
 }
 
 public static class NativeMethods
