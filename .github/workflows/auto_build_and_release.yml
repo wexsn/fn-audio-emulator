@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
@@ -41,7 +41,7 @@ jobs:
         run: Get-ChildItem -Path ./artifacts
 
       - name: Upload artifact for Windows ${{ matrix.architecture }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fn-audio-emulator-${{ matrix.architecture }}
           path: ./artifacts/fn-audio-emulator-${{ matrix.architecture }}.zip
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository for tagging
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get current time
         id: time
@@ -77,13 +77,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download 64-bit artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: fn-audio-emulator-x64
           path: ./artifacts
 
       - name: Download 32-bit artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: fn-audio-emulator-x86
           path: ./artifacts
