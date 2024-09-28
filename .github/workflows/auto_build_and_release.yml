@@ -66,7 +66,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: softprops/action-gh-release@v1.0.0
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: "v${{ env.datetime }}"
           name: "Release ${{ env.datetime }}"
@@ -89,7 +89,7 @@ jobs:
           path: ./artifacts
 
       - name: Upload 64-bit artifact to release
-        uses: softprops/action-gh-release@v1.0.0
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: "v${{ env.datetime }}"
           files: ./artifacts/fn-audio-emulator-x64.zip
@@ -97,7 +97,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload 32-bit artifact to release
-        uses: softprops/action-gh-release@v1.0.0
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: "v${{ env.datetime }}"
           files: ./artifacts/fn-audio-emulator-x86.zip
