@@ -10,20 +10,22 @@ FN Audio Emulator
 О программе
 ------------
 
-FN Audio Emulator - это консольная программа, которая позволяет эмулировать клавиши Play/Pause, Next Track, Previous Track, VolumeUp, VolumeDown на клавиатурах, где они отсутствуют. С ее помощью вы можете управлять воспроизведением аудио и видео файлов, не зависимо от того, какую задачу вы выполняете, играете или просто читаете книгу и вам не хочется сворачиваться в браузер, чтобы переключить ваш любимый плейлист музыки.
+FN Audio Emulator - это консольная программа, которая позволяет эмулировать клавиши Play/Pause, Next Track, Previous Track, Mute/Unmute VolumeUp, VolumeDown на клавиатурах, где они отсутствуют. С ее помощью вы можете управлять воспроизведением аудио и видео файлов, не зависимо от того, какую задачу вы выполняете, играете или просто читаете книгу и вам не хочется сворачиваться в браузер, чтобы переключить ваш любимый плейлист музыки.
 
 Эмулируемые клавиши
 --------------------
 
-* **Play/Pause**: позволяет начать или остановить воспроизведение аудио или видео файла "F2"
-* **Next Track**: позволяет перейти к следующему треку "F4"
-* **Previous Track**: позволяет вернуться к предыдущему треку "F8"
-* **Увеличение громкости**: позволяет увеличить громкость воспроизведения "9"
-* **Уменьшение громкости**: позволяет уменьшить громкость воспроизведения "0"
+* **Play/Pause "F2"**: позволяет начать или остановить воспроизведение аудио или видео файла "F2"
+* **Next Track "F4"**: позволяет перейти к следующему треку "F4"
+* **Previous Track "F8"**: позволяет вернуться к предыдущему треку "F8"
+* **Hide/Show Console "F12"**: Скрыть/Показать консоль
+* **Mute/Unmute "F3"**: позволяет выключить/включить звук в системе
+* **Увеличение громкости "+"**: позволяет увеличить громкость воспроизведения "9"
+* **Уменьшение громкости "-"**: позволяет уменьшить громкость воспроизведения "0"
 
 Screenshot
 ------------
-![FN Audio Emulator](https://raw.githubusercontent.com/iwantgirlfriend/fn-audio-emulator/main/ruscreen.PNG)
+![FN Audio Emulator](https://raw.githubusercontent.com/iwantgirlfriend/fn-audio-emulator/refs/heads/main/.github/20240928ru-update.PNG)
 
 Преимущества
 -------------
@@ -66,9 +68,11 @@ FN Audio Emulator идеально подходит для пользовате�
 
 По умолчанию программа использует следующие задержки для клавиш (не рекомендуется уменшать задежку, чтобы не было ошибок):
 
-* Пауза/Воспроизведение: 300 мс
-* Следующий трек: 500 мс
-* Предыдущий трек: 500 мс
+* Пауза/Воспроизведение: 250 мс
+* Следующий трек: 300 мс
+* Предыдущий трек: 300 мс
+* Выключить/включить звук: 250 мс
+* Скрыть/показать консоль: 0 мс
 * Увеличение громкости: 100 мс
 * Уменьшение громкости: 100 мс
 
@@ -79,351 +83,178 @@ FN Audio Emulator идеально подходит для пользовате�
 
 Алфавитно-цифровые клавиши:
 
-    VK_A - A
-
-    VK_B - B
-
-    VK_C - C
-
-    VK_D - D
-
-    VK_E - E
-
-    VK_F - F
-
-    VK_G - G
-
-    VK_H - H
-
-    VK_I - I
-
-    VK_J - J
-
-    VK_K - K
-
-    VK_L - L
-
-    VK_M - M
-
-    VK_N - N
-
-    VK_O - O
-
-    VK_P - P
-
-    VK_Q - Q
-
-    VK_R - R
-
-    VK_S - S
-
-    VK_T - T
-
-    VK_U - U
-
-    VK_V - V
-
-    VK_W - W
-
-    VK_X - X
-
-    VK_Y - Y
-
-    VK_Z - Z
-
-    VK_0 - 0
-
-    VK_1 - 1
-
-    VK_2 - 2
-
-    VK_3 - 3
-
-    VK_4 - 4
-
-    VK_5 - 5
-
-    VK_6 - 6
-
-    VK_7 - 7
-
-    VK_8 - 8
-
-    VK_9 - 9
-
-Специальные клавиши:
-
-    VK_LBUTTON - Левая кнопка мыши
-
-    VK_RBUTTON - Правая кнопка мыши
-
-    VK_CANCEL - Control-break processing
-
-    VK_MBUTTON - Средняя кнопка мыши (колесо)
-
-    VK_XBUTTON1 - Кнопка мыши X1
-
-    VK_XBUTTON2 - Кнопка мыши X2
-
-    VK_BACK - BACKSPACE
-
-    VK_TAB - TAB
-
-    VK_CLEAR - CLEAR
-
-    VK_RETURN - ENTER
-
-    VK_SHIFT - SHIFT
-
-    VK_CONTROL - CTRL
-
-    VK_MENU - ALT
-
-    VK_PAUSE - PAUSE
-
-    VK_CAPITAL - CAPS LOCK
-
-    VK_KANA - IME Kana mode
-
-    VK_HANGUL - IME Hangul mode
-
-    VK_JUNJA - IME Junja mode
-
-    VK_FINAL - IME final mode
-
-    VK_HANJA - IME Hanja mode
-
-    VK_KANJI - IME Kanji mode
-
-    VK_ESCAPE - ESC
-
-    VK_CONVERT - IME convert
-
-    VK_NONCONVERT - IME nonconvert
-
-    VK_ACCEPT - IME accept
-
-    VK_MODECHANGE - IME mode change request
-
-    VK_SPACE - SPACEBAR
-
-    VK_PRIOR - PAGE UP
-
-    VK_NEXT - PAGE DOWN
-
-    VK_END - END
-
-    VK_HOME - HOME
-
-    VK_LEFT - LEFT ARROW
-
-    VK_UP - UP ARROW
-
-    VK_RIGHT - RIGHT ARROW
-
-    VK_DOWN - DOWN ARROW
-
-    VK_SELECT - SELECT
-
-    VK_PRINT - PRINT
-
-    VK_EXECUTE - EXECUTE
-
-    VK_SNAPSHOT - PRINT SCREEN
-
-    VK_INSERT - INS
-
-    VK_DELETE - DEL
-
-    VK_HELP - HELP
-
-Цифровая клавиатура:
-
-    VK_NUMPAD0 - Numeric keypad 0
-
-    VK_NUMPAD1 - Numeric keypad 1
-
-    VK_NUMPAD2 - Numeric keypad 2
-
-    VK_NUMPAD3 - Numeric keypad 3
-
-    VK_NUMPAD4 - Numeric keypad 4
-
-    VK_NUMPAD5 - Numeric keypad 5
-
-    VK_NUMPAD6 - Numeric keypad 6
-
-    VK_NUMPAD7 - Numeric keypad 7
-
-    VK_NUMPAD8 - Numeric keypad 8
-
-    VK_NUMPAD9 - Numeric keypad 9
-
-    VK_MULTIPLY - Multiply
-
-    VK_ADD - Add
-
-    VK_SEPARATOR - Separator
-
-    VK_SUBTRACT - Subtract
-
-    VK_DECIMAL - Decimal
-
-    VK_DIVIDE - Divide
-
-Функциональные клавиши:
-
-    VK_F1 - F1
-
-    VK_F2 - F2
-
-    VK_F3 - F3
-
-    VK_F4 - F4
-
-    VK_F5 - F5
-
-    VK_F6 - F6
-
-    VK_F7 - F7
-
-    VK_F8 - F8
-
-    VK_F9 - F9
-
-    VK_F10 - F10
-
-    VK_F11 - F11
-
-    VK_F12 - F12
-
-    VK_F13 - F13
-
-    VK_F14 - F14
-
-    VK_F15 - F15
-
-    VK_F16 - F16
-
-    VK_F17 - F17
-
-    VK_F18 - F18
-
-    VK_F19 - F19
-
-    VK_F20 - F20
-
-    VK_F21 - F21
-
-    VK_F22 - F22
-
-    VK_F23 - F23
-
-    VK_F24 - F24
-
-Клавиши управления:
-
-    VK_NUMLOCK - NUM LOCK
-
-    VK_SCROLL - SCROLL LOCK
-
-    VK_LSHIFT - Left SHIFT
-
-    VK_RSHIFT - Right SHIFT
-
-    VK_LCONTROL - Left CONTROL
-
-    VK_RCONTROL - Right CONTROL
-
-    VK_LMENU - Left ALT
-
-    VK_RMENU - Right ALT
-
-    VK_BROWSER_BACK - Browser Back
-
-    VK_BROWSER_FORWARD - Browser Forward
-
-    VK_BROWSER_REFRESH - Browser Refresh
-
-    VK_BROWSER_STOP - Browser Stop
-
-    VK_BROWSER_SEARCH - Browser Search
-
-    VK_BROWSER_FAVORITES - Browser Favorites
-
-    VK_BROWSER_HOME - Browser Start and Home
-
-    VK_VOLUME_MUTE - Volume Mute
-
-    VK_VOLUME_DOWN - Volume Down
-
-    VK_VOLUME_UP - Volume Up
-
-    VK_MEDIA_NEXT_TRACK - Next Track
-
-    VK_MEDIA_PREV_TRACK - Previous Track
-
-    VK_MEDIA_STOP - Stop Media
-
-    VK_MEDIA_PLAY_PAUSE - Play/Pause Media
-
-    VK_LAUNCH_MAIL - Start Mail
-
-    VK_LAUNCH_MEDIA_SELECT - Select Media
-
-    VK_LAUNCH_APP1 - Start Application 1
-
-    VK_LAUNCH_APP2 - Start Application 2
-
-Клавиши с символами:
-
-    VK_OEM_1 - ;:
-
-    VK_OEM_PLUS - =+
-
-    VK_OEM_COMMA - ,<
-
-    VK_OEM_MINUS - -_
-
-    VK_OEM_PERIOD - .>
-
-    VK_OEM_2 - /?
-
-    VK_OEM_3 - `~
-
-    VK_OEM_4 - [{
-
-    VK_OEM_5 - |
-
-    VK_OEM_6 - ]}
-
-    VK_OEM_7 - '"
-
-    VK_OEM_8 - Miscellaneous characters
-
-    VK_OEM_102 - Either the angle bracket key or the backslash key on the RT 102-key keyboard
-
-Клавиши для японской раскладки:
-
-    VK_PROCESSKEY - IME process key
-
-    VK_ATTN - Attn key
-
-    VK_CRSEL - CrSel key
-
-    VK_EXSEL - ExSel key
-
-    VK_EREOF - Erase EOF
-
-    VK_PLAY - Play key
-
-    VK_ZOOM - Zoom key
-
-    VK_NONAME - Reserved
-
-    VK_PA1 - PA1 key
-
-    VK_OEM_CLEAR - Clear key
+VK_LBUTTON - Left Mouse Button
+VK_RBUTTON - Right Mouse Button
+VK_CANCEL - Cancel
+VK_MBUTTON - Middle Mouse Button
+VK_XBUTTON1 - X1 Mouse Button
+VK_XBUTTON2 - X2 Mouse Button
+VK_BACK - Backspace
+VK_TAB - Tab
+VK_CLEAR - Clear
+VK_RETURN - Enter
+VK_SHIFT - Shift
+VK_CONTROL - Ctrl
+VK_MENU - Alt
+VK_PAUSE - Pause
+VK_CAPITAL - Caps Lock
+VK_KANA - Kana
+VK_HANGUL - Hangul
+VK_JUNJA - Junja
+VK_FINAL - Final
+VK_HANJA - Hanja
+VK_KANJI - Kanji
+VK_ESCAPE - Esc
+VK_CONVERT - Convert
+VK_NONCONVERT - NonConvert
+VK_ACCEPT - Accept
+VK_MODECHANGE - Mode Change
+VK_SPACE - Space
+VK_PRIOR - Page Up
+VK_NEXT - Page Down
+VK_END - End
+VK_HOME - Home
+VK_LEFT - Left Arrow
+VK_UP - Up Arrow
+VK_RIGHT - Right Arrow
+VK_DOWN - Down Arrow
+VK_SELECT - Select
+VK_PRINT - Print
+VK_EXECUTE - Execute
+VK_SNAPSHOT - Print Screen
+VK_INSERT - Insert
+VK_DELETE - Delete
+VK_HELP - Help
+VK_0 - 0
+VK_1 - 1
+VK_2 - 2
+VK_3 - 3
+VK_4 - 4
+VK_5 - 5
+VK_6 - 6
+VK_7 - 7
+VK_8 - 8
+VK_9 - 9
+VK_A - A
+VK_B - B
+VK_C - C
+VK_D - D
+VK_E - E
+VK_F - F
+VK_G - G
+VK_H - H
+VK_I - I
+VK_J - J
+VK_K - K
+VK_L - L
+VK_M - M
+VK_N - N
+VK_O - O
+VK_P - P
+VK_Q - Q
+VK_R - R
+VK_S - S
+VK_T - T
+VK_U - U
+VK_V - V
+VK_W - W
+VK_X - X
+VK_Y - Y
+VK_Z - Z
+VK_LWIN - Left Windows
+VK_RWIN - Right Windows
+VK_APPS - Applications
+VK_SLEEP - Sleep
+VK_NUMPAD0 - Num 0
+VK_NUMPAD1 - Num 1
+VK_NUMPAD2 - Num 2
+VK_NUMPAD3 - Num 3
+VK_NUMPAD4 - Num 4
+VK_NUMPAD5 - Num 5
+VK_NUMPAD6 - Num 6
+VK_NUMPAD7 - Num 7
+VK_NUMPAD8 - Num 8
+VK_NUMPAD9 - Num 9
+VK_MULTIPLY - Num *
+VK_ADD - Num +
+VK_SEPARATOR - Separator
+VK_SUBTRACT - Num -
+VK_DECIMAL - Num .
+VK_DIVIDE - Num /
+VK_F1 - F1
+VK_F2 - F2
+VK_F3 - F3
+VK_F4 - F4
+VK_F5 - F5
+VK_F6 - F6
+VK_F7 - F7
+VK_F8 - F8
+VK_F9 - F9
+VK_F10 - F10
+VK_F11 - F11
+VK_F12 - F12
+VK_F13 - F13
+VK_F14 - F14
+VK_F15 - F15
+VK_F16 - F16
+VK_F17 - F17
+VK_F18 - F18
+VK_F19 - F19
+VK_F20 - F20
+VK_F21 - F21
+VK_F22 - F22
+VK_F23 - F23
+VK_F24 - F24
+VK_NUMLOCK - Num Lock
+VK_SCROLL - Scroll Lock
+VK_LSHIFT - Left Shift
+VK_RSHIFT - Right Shift
+VK_LCONTROL - Left Ctrl
+VK_RCONTROL - Right Ctrl
+VK_LMENU - Left Alt
+VK_RMENU - Right Alt
+VK_BROWSER_BACK - Browser Back
+VK_BROWSER_FORWARD - Browser Forward
+VK_BROWSER_REFRESH - Browser Refresh
+VK_BROWSER_STOP - Browser Stop
+VK_BROWSER_SEARCH - Browser Search
+VK_BROWSER_FAVORITES - Browser Favorites
+VK_BROWSER_HOME - Browser Home
+VK_VOLUME_MUTE - Volume Mute
+VK_VOLUME_DOWN - Volume Down
+VK_VOLUME_UP - Volume Up
+VK_MEDIA_NEXT_TRACK - Next Track
+VK_MEDIA_PREV_TRACK - Previous Track
+VK_MEDIA_STOP - Media Stop
+VK_MEDIA_PLAY_PAUSE - Play/Pause
+VK_LAUNCH_MAIL - Launch Mail
+VK_LAUNCH_MEDIA_SELECT - Select Media
+VK_LAUNCH_APP1 - Launch App1
+VK_LAUNCH_APP2 - Launch App2
+VK_OEM_1 - OEM 1
+VK_OEM_PLUS - +
+VK_OEM_COMMA - ,
+VK_OEM_MINUS - -
+VK_OEM_PERIOD - .
+VK_OEM_2 - OEM 2
+VK_OEM_3 - OEM 3
+VK_OEM_4 - OEM 4
+VK_OEM_5 - OEM 5
+VK_OEM_6 - OEM 6
+VK_OEM_7 - OEM 7
+VK_OEM_8 - OEM 8
+VK_OEM_102 - OEM 102
+VK_PROCESSKEY - Process Key
+VK_PACKET - Packet
+VK_ATTN - Attn
+VK_CRSEL - CrSel
+VK_EXSEL - ExSel
+VK_EREOF - Erase EOF
+VK_PLAY - Play
+VK_ZOOM - Zoom
+VK_NONAME - No Name
+VK_PA1 - PA1
+VK_OEM_CLEAR - Clear
 
 Этот список не является исчерпывающим, но охватывает большинство распространенных клавиш. Для полного списка можно обратиться к официальной документации Microsoft или использовать функции API, такие как GetKeyNameText, чтобы получить текстовое представление клавиши по её коду.
 
@@ -446,11 +277,11 @@ FN Audio Emulator идеально подходит для пользовате�
 
 **Шаг 4. Скопируйте код**
 
-Скопируйте код из загруженного файла `Program.cs` и вставьте его в новый проект.
+Скопируйте код из загруженного файла `Program.cs`, `virtualkeysdlc.cs` и вставьте его в новый проект.
 
 **Шаг 5. Добавьте зависимости**
 
-Установите зависимости `InputSimulator` и `Spectre.Console` с помощью менеджера пакетов NuGet и обновите файл «fn-audio-emulator.csproj».
+Установите зависимости `InputSimulatorEx` и `Spectre.Console` с помощью менеджера пакетов NuGet и обновите файл «fn-audio-emulator.csproj».
 
 **Шаг 6: Сборка EXE-файла**
 
