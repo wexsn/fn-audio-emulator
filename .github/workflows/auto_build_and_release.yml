@@ -87,15 +87,3 @@ jobs:
         with:
           name: fn-audio-emulator-x86
           path: ./artifacts
-
-      - name: Upload 64-bit artifact to release
-        uses: actions/upload-artifact@v4
-        with:
-          name: fn-audio-emulator-x64
-          path: ./artifacts/fn-audio-emulator-x64.zip
-
-      - name: Upload 32-bit artifact to release
-        uses: actions/upload-artifact@v4
-        with:
-          name: fn-audio-emulator-x86
-          path: ./artifacts/fn-audio-emulator-x86.zip
