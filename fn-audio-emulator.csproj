@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="InputSimulator" Version="1.0.4" />
+		<PackageReference Include="InputSimulatorEx" Version="2.1.1" />
 		<PackageReference Include="Spectre.Console" Version="0.49.1" />
 	</ItemGroup>
 
