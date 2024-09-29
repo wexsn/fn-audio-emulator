@@ -64,18 +64,6 @@ jobs:
           git tag -a "v${{ env.datetime }}" -m "Release on ${{ env.datetime }}"
           git push origin "v${{ env.datetime }}"
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: "v${{ env.datetime }}"
-          name: "Release ${{ env.datetime }}"
-          body: "Automated release of fn-audio-emulator for Windows (x64 and x86) from actions, [update list > click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md)"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Download 64-bit artifact
         uses: actions/download-artifact@v4
         with:
@@ -88,8 +76,36 @@ jobs:
           name: fn-audio-emulator-x86
           path: ./artifacts
 
+      - name: Calculate SHA256 for 64-bit artifact
+        id: sha256_x64
+        run: |
+          sha256=$(sha256sum ./artifacts/fn-audio-emulator-x64.zip | awk '{print $1}')
+          echo "sha256_x64=$sha256" >> $GITHUB_ENV
+
+      - name: Calculate SHA256 for 32-bit artifact
+        id: sha256_x86
+        run: |
+          sha256=$(sha256sum ./artifacts/fn-audio-emulator-x86.zip | awk '{print $1}')
+          echo "sha256_x86=$sha256" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2.0.7
+        with:
+          tag_name: "v${{ env.datetime }}"
+          name: "Release ${{ env.datetime }}"
+          body: |
+            Automated release of fn-audio-emulator for Windows (x64 and x86) from actions, 
+            [update list > click](https://github.com/iwantgirlfriend/fn-audio-emulator/blob/main/update-list.md)
+            SHA256 (x64): ${{ env.sha256_x64 }}
+            SHA256 (x86): ${{ env.sha256_x86 }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload 64-bit artifact to release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.0.7
         with:
           tag_name: "v${{ env.datetime }}"
           files: ./artifacts/fn-audio-emulator-x64.zip
@@ -97,7 +113,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload 32-bit artifact to release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.0.7
         with:
           tag_name: "v${{ env.datetime }}"
           files: ./artifacts/fn-audio-emulator-x86.zip
