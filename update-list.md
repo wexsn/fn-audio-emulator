@@ -1,5 +1,12 @@
 Update List
 -------------
+* **Plans for the update 15.11.2024**:
+1. Add /reset command to reset to default settings.
+2. Add some key combinations to avoid accidental presses.
+3. Add a separate process to run in the background when the program is closed by the user.
+4. Improve old functions for full autonomous operation.
+The update will come out when the author has time. These are future plans and they can change. The project seems very small, but it takes a lot of time and it is done for free.
+
 * **29.09.2024**:
 1. Updated Action file for application assembly, fixed errors. Now SHA256 is output to the release of ready zip files. SHA256 increases trust in the repository, you can view the open source code and action logs and make sure that the application was assembled directly in the repository and published by action bot and compare the SHA256 values ​​in the action and the downloaded file.
 
